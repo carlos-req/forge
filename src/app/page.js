@@ -1,9 +1,39 @@
+"use client";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [themePreference, setThemePreference] = useState("light"); // Default to light
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      setThemePreference(prefersDark ? "dark" : "light");
+    }
+  }, []);
+
+  console.log(themePreference);
+
   return (
     <main className="flex min-h-screen flex-col items-center p-24 gap-6">
-      <section className="w-full">
+      <section className={themePreference === "dark" ? "hidden" : "w-full"}>
+        <a
+          href="https://www.google.com/maps/place/908+McMullen+Booth+Rd,+Clearwater,+FL+33759"
+          target="_blank"
+        >
+          <Image
+            src="/forge.png"
+            width={500}
+            height={500}
+            alt="forge logo"
+            className="mx-auto"
+            priority
+          />
+        </a>
+      </section>
+      <section className={themePreference === "light" ? "hidden" : "w-full"}>
         <a
           href="https://www.google.com/maps/place/908+McMullen+Booth+Rd,+Clearwater,+FL+33759"
           target="_blank"
